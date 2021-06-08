@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { Layout, Menu, Breadcrumb, Tree } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import Avatar from 'antd/lib/avatar/avatar';
 import {
@@ -8,33 +8,18 @@ import {
   UsergroupAddOutlined,
   DownloadOutlined,
   CloudDownloadOutlined,
-  DownOutlined,
-  FrownOutlined,
-  FrownFilled,
   MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 const { Header, Footer, Sider, Content } = Layout;
 
-const treeData = [
-  {
-    title: '',
-    key: '0-0',
-    children: [
-      {
-        title: 'Leaf 1',
-        key: '0-0-0',
-      },
-      {
-        title: 'Leaf 2',
-        key: '0-0-1',
-      },
-    ],
-  },
-];
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
+
   return (
     <div className="App">
       <Layout>
@@ -43,7 +28,7 @@ function App() {
           <Title style={{ color: 'white' }} level={3}>Dashboard</Title>
         </Header>
         <Layout>
-          <Sider className='sider' breakpoint="sm" collapsedWidth="150" >
+          <Sider className='sider' breakpoint="sm" collapsedWidth="100" collapsible collapsed={isMenuOpen} >
             <Menu
               defaultSelectedKeys={['Dashboard']}
               mode="inline"
@@ -78,13 +63,11 @@ function App() {
           <Layout>
             <Content style={{ padding: '0 50px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}>
-                <Tree
-                  showIcon
-                  defaultSelectedKeys={['0-0-0']}
-                  switcherIcon={<MenuFoldOutlined style={{ fontSize: '22px' }} />}
-                  treeData={treeData}
-                />
-
+                {isMenuOpen ? (
+                  <MenuUnfoldOutlined style={{ fontSize: '22px' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
+                ) : (
+                  <MenuFoldOutlined style={{ fontSize: '22px' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
+                )}
               </Breadcrumb>
               <div className="site-layout-content">Content</div>
             </Content>
