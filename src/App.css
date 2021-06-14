@@ -1,7 +1,12 @@
 @import "~antd/dist/antd.css";
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 .App {
-  text-align: left;
+  text-align: left; 
 }
 
 .avatar {
@@ -9,18 +14,96 @@
 }
 
 .sider{
-  background: rgb(89, 160, 218);
-}
-
-.site-layout-content{
-  background: #fff;
-  padding: 24px;
-  min-height: 580px;
+  background: rgb(255, 255, 255);
 }
 
 .header{
   padding: 15px;
 }
 
+.menuHeader
+{
+  color: #3befd4;
+  font-size: 2.4rem;
+  font-weight: bold;
+}
+.menuHeader:hover
+{
+  color: #3befd4;
+  cursor:default;
+}
+
+.breadcrumb-section
+{
+  padding: 6px 27px;
+  background: #10dcdd;
+}
+
+.layout-main-container
+{  
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.header-content-section{
+  background: #10dcdd;
+  height: 150px;
+  min-width: 100%;
+}
+
+.header-content-section h1{
+  margin-left: 27px;
+  font-size: 30px;
+  color: rgb(252, 252, 252);
+}
+
+.container-layout-content{
+  position: relative; 
+  top:-90px;
+  left: 27px;
+  width: 95%;
+  background: #fff;
+  padding: 24px;
+  min-height: 300px;
+  border-radius: 6px;
+  background: rgb(252, 252, 252);
+}
 
 
+/* Approval Component */
+.button-approve-approval-component{
+  background: #64c27b;
+}
+.button-approve-approval-component:hover{
+  background: #4faf67;
+}
+
+/* File manager Component */
+.buttons-container-file-manager
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.button-file-manager-component
+{ 
+  background: rgb(211, 207, 207);
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.button-file-manager-component:hover
+{
+  background: rgb(167, 162, 162);
+}
+
+thead > tr > th {
+  background-color: #e6f7ff !important;
+}

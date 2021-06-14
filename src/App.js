@@ -1,81 +1,114 @@
 import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import Title from 'antd/lib/typography/Title';
-import Avatar from 'antd/lib/avatar/avatar';
 import {
-  MailOutlined,
-  UsergroupAddOutlined,
-  DownloadOutlined,
-  CloudDownloadOutlined,
+  ScheduleOutlined,
+  ContainerOutlined,
+  FileTextOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
+import FileManager from './components/FileManager';
+import Approvals from './components/Approvals';
+import EmployeeReport from './components/EmployeeReport';
+import AttendanceReport from './components/AttendanceReport';
 
-const { SubMenu } = Menu;
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout;
 
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
   return (
-    <div className="App">
-      <Layout>
-        <Header className='header'>
-          <Avatar className='avatar' src='./avatar.png' />
-          <Title style={{ color: 'white' }} level={3}>Dashboard</Title>
-        </Header>
-        <Layout>
-          <Sider className='sider' breakpoint="sm" collapsedWidth="100" collapsible collapsed={isMenuOpen} >
-            <Menu
-              defaultSelectedKeys={['Dashboard']}
-              mode="inline"
-            >
-              <Menu.Item key='Dashboard' breakpoint="sm">
-                Dashboard
-              </Menu.Item>
-              <SubMenu icon={<MailOutlined />}
-                title={
-                  <span>
-                    <span>Main Section</span>
-                  </span>
-                }>
-                <Menu.ItemGroup key='section1' title='Section 1'>
-                  <Menu.Item key='sub1Section1' breakpoint="sm" icon={<UsergroupAddOutlined />}><span className="menuStyle">Sub-section 1</span></Menu.Item>
-                  <Menu.Item key='sub1Section2' breakpoint="sm" icon={<DownloadOutlined />}><span className="menuStyle">Sub-section 2</span></Menu.Item>
-                </Menu.ItemGroup>
-              </SubMenu>
-              <SubMenu icon={<CloudDownloadOutlined />}
-                title={
-                  <span>
-                    <span>Second Section</span>
-                  </span>
-                }>
-                <Menu.ItemGroup key='section2' title='Section 2'>
-                  <Menu.Item key='sub2Section1' breakpoint="sm" icon={<UsergroupAddOutlined />}><span className="menuStyle">Sub-section 1</span></Menu.Item>
-                  <Menu.Item key='sub2Section2' breakpoint="sm" icon={<DownloadOutlined />}><span className="menuStyle">Sub-section 2</span></Menu.Item>
-                </Menu.ItemGroup>
-              </SubMenu>
-            </Menu>
-          </Sider>
+    <Router>
+      <div className="App">
+        <Layout className='layout-main-container'>
           <Layout>
-            <Content style={{ padding: '0 50px' }}>
-              <Breadcrumb style={{ margin: '16px 0' }}>
-                {isMenuOpen ? (
-                  <MenuUnfoldOutlined style={{ fontSize: '22px' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
-                ) : (
-                  <MenuFoldOutlined style={{ fontSize: '22px' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
-                )}
-              </Breadcrumb>
-              <div className="site-layout-content">Content</div>
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design Footer</Footer>
+
+            {/* Navbar Section */}
+            <Sider className='sider' breakpoint="sm" collapsedWidth="100" collapsible collapsed={isMenuOpen} >
+              <Menu
+                mode="inline"
+              >
+                <Menu.Item className='menuHeader' key='Dashboard' breakpoint="sm">
+                  Reesby.
+                </Menu.Item>
+                <Menu.Item key="1" icon={<ScheduleOutlined style={{ color: 'rgb(4, 14, 70)' }} />}>
+                  <Link to="/approvals">Approvals</Link>
+                </Menu.Item>
+                <Menu.Item key="2" icon={<ContainerOutlined style={{ color: 'rgb(48, 112, 185)' }} />}>
+                  <Link to="/employee-report">Employee Report</Link>
+                </Menu.Item>
+                <Menu.Item key="3" icon={<ContainerOutlined style={{ color: 'rgb(194, 80, 175)' }} />}>
+                  <Link to="/attendance-report">Attendance Report</Link>
+                </Menu.Item>
+                <Menu.Item key="4" icon={<FileTextOutlined style={{ color: 'rgb(194, 80, 175)' }} />}>
+                  <Link to="/file-manager">File Manager</Link>
+                </Menu.Item>
+              </Menu>
+            </Sider>
+
+            {/* Content Section */}
+            <Layout className='layout-components-section-container'>
+              <Content>
+                <Breadcrumb className='breadcrumb-section'>
+                  {isMenuOpen ? (
+                    <MenuUnfoldOutlined style={{ fontSize: '22px', color: 'white' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
+                  ) : (
+                    <MenuFoldOutlined style={{ fontSize: '22px', color: 'white' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
+                  )}
+                </Breadcrumb>
+
+                <div className='header-content-section'>
+                  {/* Switch Title */}
+                  <Switch>
+                    <Route exact path="/approvals">
+                      <h1>Approvals</h1>
+                    </Route>
+                    <Route exact path="/employee-report">
+                      <h1>Employee Report</h1>
+                    </Route>
+                    <Route exact path="/attendance-report">
+                      <h1>Attendance Report</h1>
+                    </Route>
+                    <Route exact path="/file-manager">
+                      <h1>File Manager</h1>
+                    </Route>
+                  </Switch>
+                </div>
+
+                <div className="container-layout-content">
+                  <Switch>
+                    <Route exact path="/approvals">
+                      <Approvals />
+                    </Route>
+                    <Route exact path="/employee-report">
+                      <EmployeeReport />
+                    </Route>
+                    <Route exact path="/attendance-report">
+                      <AttendanceReport />
+                    </Route>
+                    <Route exact path="/file-manager">
+                      <FileManager />
+                    </Route>
+                  </Switch>
+                </div>
+              </Content>
+
+              {/* Footer Section */}
+              <Footer style={{ textAlign: 'left' }}>© 2021 <span style={{ fontWeight: 'bolder' }}>Reesby Technologies</span></Footer>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
-    </div >
+      </div >
+    </Router >
   );
 }
 
