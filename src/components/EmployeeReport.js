@@ -36,7 +36,7 @@ const EmployeeReport = () => {
     ];
 
     const data = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 25; i++) {
         data.push({
             key: i,
             name: `Fernando Salviati ${i}`,
@@ -51,9 +51,9 @@ const EmployeeReport = () => {
         <div>
             <div>
                 <Input placeholder="Enter Name or Email" style={{ width: 220, marginBottom: 12, marginRight: 18 }} />
-                <Button type="primary" style={{ borderRadius: 4 }}>Search</Button>
+                <Button type="primary" style={{ borderRadius: 4, marginBottom: 12 }}>Search</Button>
             </div>
-            <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+            <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ x: 1000, y: 250 }} />
         </div>
     )
 }

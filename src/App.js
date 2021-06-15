@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,10 +21,17 @@ import AttendanceReport from './components/AttendanceReport';
 
 const { Footer, Sider, Content } = Layout;
 
-
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [width, setWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    if (width <= 540) {
+      setIsMenuOpen(false)
+    }
+  });
 
   return (
     <Router>
@@ -33,7 +40,8 @@ function App() {
           <Layout>
 
             {/* Navbar Section */}
-            <Sider className='sider' breakpoint="sm" collapsedWidth="100" collapsible collapsed={isMenuOpen} >
+            <Sider className='sider' breakpoint="sm" collapsedWidth="100" collapsible collapsed={!isMenuOpen}
+            >
               <Menu
                 mode="inline"
               >
@@ -60,9 +68,9 @@ function App() {
               <Content>
                 <Breadcrumb className='breadcrumb-section'>
                   {isMenuOpen ? (
-                    <MenuUnfoldOutlined style={{ fontSize: '22px', color: 'white' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
-                  ) : (
                     <MenuFoldOutlined style={{ fontSize: '22px', color: 'white' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
+                  ) : (
+                    <MenuUnfoldOutlined style={{ fontSize: '22px', color: 'white' }} onClick={() => { setIsMenuOpen(!isMenuOpen) }} />
                   )}
                 </Breadcrumb>
 

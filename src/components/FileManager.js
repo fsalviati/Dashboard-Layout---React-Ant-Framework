@@ -27,7 +27,7 @@ const FileManager = () => {
                 <label style={{ fontSize: 15, fontWeight: 'bold' }}><button className='button-file-manager-component'>Choose File</button> No File Chosen</label>
                 <button className='button-file-manager-component'>Upload</button>
             </div>
-            <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+            <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ x: 700, y: 250 }} />
         </div>
     )
 }

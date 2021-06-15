@@ -48,7 +48,7 @@ const AttendanceReport = () => {
     ];
 
     const data = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 25; i++) {
         data.push({
             key: i,
             name: `Fernando Salviati ${i}`,
@@ -70,9 +70,9 @@ const AttendanceReport = () => {
                     <Option value="HR">HR</Option>
                     <Option value="DATA SCIENCE">DATA SCIENCE</Option>
                 </Select>
-                <Button type="primary" style={{ marginLeft: 18, borderRadius: 4 }}>View</Button>
+                <Button type="primary" style={{ marginTop: 12, marginBottom: 12, marginLeft: 18, borderRadius: 4 }}>View</Button>
             </div>
-            <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+            <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ x: 1000, y: 180 }} />
         </div >
     )
 }
