@@ -1,73 +1,89 @@
 import React from 'react';
-import { Table } from 'antd';
-import { Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import reqwest from 'reqwest';
 
-const { Dragger } = Upload;
-
-const FileManager = () => {
-    const props = {
-        name: 'file',
-        multiple: true,
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        onChange(info) {
-            console.log('Info = ', info)
-            const { status } = info.file;
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
-
-        },
-
+class FileManager extends React.Component {
+    state = {
+        fileList: [],
+        uploading: false,
     };
 
+    handleUpload = () => {
+        const { fileList } = this.state;
+        const formData = new FormData();
+        fileList.forEach(file => {
+            formData.append('files[]', file);
+        });
 
-    const columns = [
-        {
-            title: 'FILENAME',
-            dataIndex: 'filename',
-            width: 70,
-        },
-        {
-            title: 'LINK',
-            dataIndex: 'link',
-            width: 70,
-        },
-        {
-            title: 'DOWNLOAD',
-            dataIndex: 'download',
-            width: 50,
-        }
-    ];
-    const data = [];
+        this.setState({
+            uploading: true,
+        });
+        console.log(fileList);
 
-    return (
-        <div>
+        // Reqwest library
+        reqwest({
+            url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+            method: 'post',
+            processData: false,
+            data: formData,
+            success: () => {
+                this.setState({
+                    fileList: [],
+                    uploading: false,
+                });
+                message.success('upload successfully.');
+            },
+            error: () => {
+                this.setState({
+                    uploading: false,
+                });
+                message.error('upload failed.');
+            },
+        });
+    };
 
-            <div className='ant-drag-drop-container'>
-                <Dragger {...props}
+    render() {
+        const { uploading, fileList } = this.state;
+        const props = {
+            onRemove: file => {
+                this.setState(state => {
+                    const index = state.fileList.indexOf(file);
+                    const newFileList = state.fileList.slice();
+                    newFileList.splice(index, 1);
+                    return {
+                        fileList: newFileList,
+                    };
+                });
+            },
+            beforeUpload: file => {
+                this.setState(state => ({
+                    fileList: [...state.fileList, file],
+                }));
+                return false;
+            },
+            fileList,
+        };
+        return (
+            <>
+                <Upload {...props}>
+                    <Button type="primary"
+                        shape="round" icon={<UploadOutlined />}>Choose File</Button>
+                </Upload>
+                <Button
+                    type="primary"
+                    shape="round"
+                    onClick={this.handleUpload}
+                    disabled={fileList.length === 0}
+                    loading={uploading}
+                    style={{ marginTop: 16 }}
                 >
-                    <div className='drag-drop'>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">
-                            Support for a single or bulk upload.
-                        </p>
-                    </div>
-                </Dragger>
-            </div>
-            {/* <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ x: 700, y: 250 }} /> */}
-        </div>
-    )
+                    {uploading ? 'Uploading' : 'Upload'}
+                </Button>
+
+            </>
+        );
+    }
 }
+
 export default FileManager;
